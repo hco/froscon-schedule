@@ -4,6 +4,7 @@ import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
 import ListSubheader from "@material-ui/core/es/ListSubheader/ListSubheader";
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { TalksByStarttime } from "../data/WithSchedule";
 
 // import ListItemText from "@material-ui/core/ListItemText";
@@ -42,14 +43,16 @@ class TalkListComponent extends React.Component<Props> {
               {new Date(startTime).toLocaleString()}
             </ListSubheader>
             {talkByStarttime[startTime].map(talk => (
-              <ListItem key={talk.guid}>
-                <ListItemText
-                  primary={talk.title}
-                  secondary={`${talk.room} - ${talk.persons
-                    .map(p => p.public_name)
-                    .join(", ")}`}
-                />
-              </ListItem>
+              <Link to={`/talk/${talk.slug}`}>
+                <ListItem key={talk.guid}>
+                  <ListItemText
+                    primary={talk.title}
+                    secondary={`${talk.room} - ${talk.persons
+                      .map(p => p.public_name)
+                      .join(", ")}`}
+                  />
+                </ListItem>
+              </Link>
             ))}
           </React.Fragment>
         ))}

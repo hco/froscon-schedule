@@ -1,12 +1,16 @@
-import AppBar from '@material-ui/core/AppBar/AppBar';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Toolbar from '@material-ui/core/Toolbar/Toolbar';
-import Typography from '@material-ui/core/Typography/Typography';
-import * as React from 'react';
+import AppBar from "@material-ui/core/AppBar/AppBar";
+import IconButton from "@material-ui/core/es/IconButton/IconButton";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import Typography from "@material-ui/core/Typography/Typography";
+import BackIcon from "@material-ui/icons/ArrowBack";
+import * as React from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   title: string;
   classes: any;
+  showBackButton: boolean;
 }
 
 interface State {
@@ -19,18 +23,32 @@ class AppLayoutComponent extends React.Component<Props, State> {
   };
 
   public render() {
-    const { classes, children } = this.props;
-    return <div className={classes.root}>
+    const { showBackButton, classes, children } = this.props;
+    return (
+      <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="title" color="inherit" className={`${classes.flex}`}>
+            {showBackButton && (
+              <Link to="/">
+                <IconButton>
+                  <BackIcon />
+                </IconButton>
+              </Link>
+            )}
+
+            <Typography
+              variant="title"
+              color="inherit"
+              className={`${classes.flex}`}
+            >
               {this.props.title}
             </Typography>
           </Toolbar>
         </AppBar>
 
         {children}
-      </div>;
+      </div>
+    );
   }
 }
 
