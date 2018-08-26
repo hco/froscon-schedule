@@ -35,9 +35,14 @@ class TalkListComponent extends React.Component<Props> {
     //   </List>
     // );
 
+    const startTimes = Object.keys(talkByStarttime).sort(
+      (a: string, b: string) =>
+        new Date(a).getTime() -
+        new Date(b).getTime()
+    ).filter((str: string) => new Date(str).toISOString() > "2018-08-26T00:00:0.738Z");
     return (
       <List className={classes.root}>
-        {Object.keys(talkByStarttime).map(startTime => (
+        {startTimes.map(startTime => (
           <React.Fragment key={startTime}>
             <ListSubheader className={classes.subHeader}>
               {new Date(startTime).toLocaleString()}
@@ -66,7 +71,7 @@ export const TalkList = withStyles({
     width: "100%",
     position: "relative",
     overflow: "auto",
-    maxHeight: "90vh"
+    // maxHeight: "90vh"
   },
   listSection: {
     backgroundColor: "inherit"
