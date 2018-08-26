@@ -26,7 +26,7 @@ class AppLayoutComponent extends React.Component<Props, State> {
     const { showBackButton, classes, children } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="sticky">
           <Toolbar>
             {showBackButton && (
               <Link to="/">
