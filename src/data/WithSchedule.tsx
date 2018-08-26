@@ -26,18 +26,23 @@ export class WithSchedule extends React.Component<Props, State> {
     this.state = {};
   }
   public async componentDidMount() {
-    const response = await fetch("/schedule.json");
-    const data = await response.json();
+    if (localStorage.getItem("schedule.json") === null) {
+      await this.updateLocalStorage();
+    }
+    const schedule: Schedule = JSON.parse(
+      localStorage.getItem("schedule.json")!
+    );
 
-    const talks = allTalks(data.schedule);
-    const talksByStarttime = convertScheduleToOrderedTalks(data.schedule);
+    const talks = allTalks(schedule);
+    const talksByStarttime = convertScheduleToOrderedTalks(schedule);
     const talksBySlug = {};
     talks.forEach((talk: Talk) => (talksBySlug[talk.slug] = talk));
     this.setState({
-      schedule: data.schedule,
+      schedule,
       talksByStarttime,
       talksBySlug
     });
+    await this.updateLocalStorage();
   }
   public render() {
     if (this.state.talksByStarttime && this.state.talksBySlug) {
@@ -48,6 +53,12 @@ export class WithSchedule extends React.Component<Props, State> {
     }
 
     return <div>Loading</div>;
+  }
+
+  private async updateLocalStorage() {
+    const response = await fetch("/schedule.json");
+    const data = await response.json();
+    localStorage.setItem("schedule.json", JSON.stringify(data.schedule));
   }
 }
 
